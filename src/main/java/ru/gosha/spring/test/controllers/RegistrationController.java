@@ -36,7 +36,6 @@ public class RegistrationController {
     }
 
     @RequestMapping("/registration-success")
-    @ResponseBody
     public String processUserReg(@Valid @ModelAttribute("registerInfo")UserRegistrationDTO userRegistrationDTO, BindingResult result){
         System.out.println("inside processUserReg method");
         System.out.println("Name value entered by user is " + "|" + userRegistrationDTO.getName() + "|");

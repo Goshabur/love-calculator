@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -14,9 +16,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ru.gosha.spring.test.formatter.PhoneNumberFormatter;
 
+import java.util.Properties;
+
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = "ru.gosha.spring.test.controllers")
+@ComponentScan({"ru.gosha.spring.test.controllers" , "ru.gosha.spring.test.service"})
 public class ApplicationConfig implements WebMvcConfigurer {
 
     @Bean
@@ -25,6 +29,25 @@ public class ApplicationConfig implements WebMvcConfigurer {
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+    @Bean
+    public JavaMailSenderImpl getJavaMailSender(){
+        JavaMailSenderImpl javaMailSenderImpl = new JavaMailSenderImpl();
+        javaMailSenderImpl.setHost("smtp.gmail.com");
+        javaMailSenderImpl.setUsername("@gmail.com");
+        javaMailSenderImpl.setPassword("1");
+        javaMailSenderImpl.setPort(587);
+
+        Properties mailProperties = new Properties();
+        mailProperties.put("mail.smtp.starttls.enable", true);
+        mailProperties.put("mail.smtp.auth", true);
+        mailProperties.put("mail.smtp.starttls.required", true);
+        mailProperties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
+        javaMailSenderImpl.setJavaMailProperties(mailProperties);
+
+        return javaMailSenderImpl;
     }
 
     @Bean
