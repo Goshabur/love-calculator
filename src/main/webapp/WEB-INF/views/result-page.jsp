@@ -17,7 +17,7 @@
     <br/>
     ${userInfo.userName} and ${userInfo.crushName} are
     <br/>
-    Friend
+    ${result}
     <br/>
     <a href="/sendEmail">Send Result to Your Email</a>
 </body>

@@ -15,6 +15,16 @@ public class UserInfoDTO {
     @AssertTrue(message = "* You have to agree to use our app")
     private boolean termAndCondition;
 
+    private String result;
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     public boolean isTermAndCondition() {
         return termAndCondition;
     }

@@ -1,5 +1,6 @@
 package ru.gosha.spring.test.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.gosha.spring.test.api.UserInfoDTO;
+import ru.gosha.spring.test.service.LCAppServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,8 @@ import java.util.List;
 @Controller
 public class LCAppController {
 
+    @Autowired
+    private LCAppServiceImpl lcAppService;
 
     @RequestMapping("/")
     public String showHomePage(Model model){
@@ -38,8 +42,10 @@ public class LCAppController {
     }
 
     @RequestMapping("/process-homepage")
-    public String showResultPage(@Valid @ModelAttribute("userInfo") UserInfoDTO userInfoDTO, BindingResult result){ // @Valid - to trigger the validation
+    public String showResultPage(Model model , @Valid UserInfoDTO userInfoDTO, BindingResult result){ // @Valid - to trigger the validation
 
+        model.addAttribute("userInfo", userInfoDTO);
+        model.addAttribute(BindingResult.MODEL_KEY_PREFIX + "userInfo",result);
         System.out.println(userInfoDTO.isTermAndCondition());
 
         if(result.hasErrors()){
@@ -50,7 +56,12 @@ public class LCAppController {
             return "home-page";
         }
 
+        String LCAppResult = lcAppService.calculateLove(userInfoDTO.getUserName(),userInfoDTO.getCrushName());
+        userInfoDTO.setResult(LCAppResult);
 
+        //Research
+        // 1) one more turn-on-ur-cookie page
+        // 2) encoding url
 
 //        HttpSession session = request.getSession();
 //        session.setAttribute("userName", userInfoDTO.getUserName());
