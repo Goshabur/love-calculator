@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"ru.gosha.spring.test.controllers" , "ru.gosha.spring.test.service"})
+@ComponentScan({"ru.gosha.spring.test.controllers" , "ru.gosha.spring.test.service", "ru.gosha.spring.test.api", "ru.gosha.spring.test.exception"})
 @PropertySource("classpath:email.properties")
 public class ApplicationConfig implements WebMvcConfigurer {
 
